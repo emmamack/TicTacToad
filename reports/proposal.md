@@ -13,9 +13,9 @@
 ## Resources
 * We were inspired by this past project, which focuses more on the computer networking aspect of what we’re hoping to accomplish. We can start with their cited resources: https://github.com/NathanShuster/hackerchat/blob/master/reports/report.md#resources
 * Socket programming: 
-* https://www.geeksforgeeks.org/socket-programming-cc/#:~:text=What%20is%20socket%20programming%3F,reaches%20out%20to%20the%20server
-* https://www.binarytides.com/socket-programming-c-linux-tutorial/
-* https://www.csd.uoc.gr/~hy556/material/tutorials/cs556-3rd-tutorial.pdf
+  * https://www.geeksforgeeks.org/socket-programming-cc/#:~:text=What%20is%20socket%20programming%3F,reaches%20out%20to%20the%20server
+  * https://www.binarytides.com/socket-programming-c-linux-tutorial/
+  * https://www.csd.uoc.gr/~hy556/material/tutorials/cs556-3rd-tutorial.pdf
 
 
 ## First steps
