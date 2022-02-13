@@ -19,6 +19,6 @@
 
 
 ## First steps
-* Conceptual understanding of the computer networking we plan on doing (Berwin) - create reading list for socket programming; while this will be an ongoing learning process, our goal is for each member of the team to have a conceptual understanding of our computer networking.
-* Set up basic connection between two machines on the same network (Maya, but all working closely) - after completing this, we will be able to start up two command shells and have them communicate with one another over the same network
-* Write a minigame for two players that’s run on one machine (Emma)
+* Conceptual understanding of the computer networking we plan on doing (Berwin). Creating reading list for socket programming; while this will be an ongoing learning process, our goal is for each member of the team to have a conceptual understanding of our computer networking. This task will be done when all members of the team have completed the readings.
+* Set up basic connection between two machines on the same network (Maya, but all working closely). After completing this, we will be able to start up two command shells on separate machines and have them communicate with one another over the same network.
+* Write a minigame for two players that’s run on one machine (Emma). This is complete when there is a functional version of rock-paper-scissors in the terminal of a single device.
