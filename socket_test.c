@@ -24,6 +24,25 @@ void error(char* msg) {
   exit(2);
 }
 
+int read_in(int socket, char *buf, int len) {
+  char *s = buf;
+  int slen = len;
+  int c = recv(socket, s, slen, 0);
+  printf("recv: %d", c);
+  while ((c > 0) && (s[c-1] != '\n')) {
+    s += c; slen -= c;
+    c = recv(socket, s, slen, 0);
+  }
+  printf("Got out of the while loop");
+  if (c < 0)
+    return c;
+  else if (c == 0)
+    buf[0] = '\0';
+  else
+    s[c-1]='\0';
+  return len - slen;
+}
+
 int main() {
   int listener_d = socket(PF_INET, SOCK_STREAM, 0);
   if (listener_d == -1) error("Can't open socket");
@@ -52,10 +71,16 @@ int main() {
     if (connect_d == -1)
       error("Can't open secondary socket");
     printf("connect_d: %d\n", connect_d);
+    printf("sending now\n");
 
     char *msg = "Hello world!\n";
     if (send(connect_d, msg, strlen(msg), 0) == -1)
       error("Can't send");
+
+    char buf[255];
+    printf("Starting read\n");
+    read_in(connect_d, buf, sizeof(buf));
+    printf("Response: %s\n", buf);
 
     close(connect_d);
 
