@@ -10,3 +10,12 @@ A cross-machine minigame program
 * implemented most of 20Q
 * Blocked by not understanding why `strcmp` isn't working, will address during first check-in (2/25)
 * WSL can connect to itself, but not between different machines
+
+## 2/25/2022 Check-in with Steve
+* Suggests making sure everyone has something to do under the "to-do" column in Todoist
+    * subtasks?? so we can assign more than one person? oh???
+* Investigate multi-way communication, set things up to resume game if someone drops and reconnections (state restoration)
+* Playing against AI ??
+* \>2-player games
+* don't commit `a.out` files - a `.gitignore` file
+* make a `Makefile`
