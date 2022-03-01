@@ -1,13 +1,12 @@
-/* Testing boilerplate code to open a connection between machines.
-Emma Mack, Feb. 2022
+/* Testing 20 questions
+Feb. 2022
 
 To connect:
 [in another terminal while socket_test is running]
 $ telnet 127.0.0.1 3000
 
-TODOs:
-- Test on multiple machines
-- read from client (pg 478)
+To find your ip address:
+hostname -I
 */
 
 #include <stdio.h>
