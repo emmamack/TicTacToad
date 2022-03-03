@@ -93,8 +93,8 @@ int main() {
         // check for correct guess
         printf("guess: %s\n", guess);
         printf("answer_str: %s\n", answer_str);
-        printf("len guess: %d\n", strlen(guess));
-        printf("len answer_str: %d\n", strlen(answer_str));
+        printf("len guess: %zu\n", strlen(guess));
+        printf("len answer_str: %zu\n", strlen(answer_str));
         int res = strcmp(answer_str, guess);
         printf("res: %d\n", res);
         if (!res) {
