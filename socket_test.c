@@ -99,7 +99,7 @@ void play_20q(int connect_d) {
         // Player 1 asks a question, which is saved
         char *msg2 = "Player 2: Ask a yes or no question: \n";
         send(connect_d, msg2, strlen(msg2), 0);
-        char guess_array[255];
+        char guess_array[80];
         read_in(connect_d, guess_array, sizeof(buf));
         char* guess = guess_array;
         printf("%s\n", guess_array);
@@ -122,9 +122,9 @@ void play_20q(int connect_d) {
         send(connect_d, response, strlen(response), 0);
 
         // Check for correct guess
-        // if (guess_str[0] == 'C') {
-        //     printf("Correct - Player 1 was thinking of \"%s\"! Guessed in %i questions.\n", answer_str, i);
-        //     break;
-        // }
+        if (response[0] == 'C') {
+            printf("Correct - Player 1 was thinking of \"%s\"! Guessed in %i questions.\n", answer_str, i);
+            break;
+        }
     }
 }
