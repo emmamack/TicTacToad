@@ -6,7 +6,7 @@ To connect:
 $ telnet 127.0.0.1 3000
 
 To find your ip address:
-hostname -I
+hostname -i
 */
 
 #include <stdio.h>
@@ -17,6 +17,9 @@ hostname -I
 #include <arpa/inet.h>
 #include <unistd.h>
 #include <signal.h>
+
+// Function declarations
+void play_20q(int connect_d);
 
 void error(char* msg) {
   printf("%s\n", msg);
@@ -69,6 +72,17 @@ int main() {
       error("Can't open secondary socket");
     printf("connect_d: %d\n", connect_d);
 
+    // Play games!
+    play_20q(connect_d);
+
+    close(connect_d);
+  }
+
+  return 0;
+}
+
+
+void play_20q(int connect_d) {
     char *msg = "Welcome to 20 questions!\n";
     if (send(connect_d, msg, strlen(msg), 0) == -1)
       error("Can't send");
@@ -113,10 +127,4 @@ int main() {
         //     break;
         // }
     }
-
-    close(connect_d);
-
-  }
-
-  return 0;
 }
