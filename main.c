@@ -17,6 +17,7 @@ hostname -i
 #include <arpa/inet.h>
 #include <unistd.h>
 #include <signal.h>
+#include <time.h>
 
 // Function declarations
 void play_20q(int connect_d);
@@ -53,9 +54,16 @@ int main() {
   name.sin_port = (in_port_t)htons(3000);
   name.sin_addr.s_addr = htonl(INADDR_ANY);
 
-  int c = bind(listener_d, (struct sockaddr *) &name, sizeof(name));
-  if (c==-1)
-    error("Can't bind to socket");
+  printf("Trying to connect to socket... will exit after 30 seconds of failure...\n");
+  int c = -1;
+  int start_time = time(0);
+  while (c==-1) {
+    c = bind(listener_d, (struct sockaddr *) &name, sizeof(name));
+    if ((start_time + 30) < time(0))
+      error("Can't bind to socket");
+  }
+  puts("Connected.");
+
 
   if (listen(listener_d, 10) == -1)
     error("Can't listen");
