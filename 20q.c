@@ -1,47 +1,46 @@
 #include <stdio.h>
-#include <stdlib.h>
+#include <string.h>
+#include <sys/socket.h>
+#include <errno.h>
+#include "helpers.h"
+#include "games.h"
 
-// 20 Questions
-// Two-player, one device (for now)
-// Berwin Lan, Software Systems SP22
-// Project 1 - TicTacToad
+void play_20q(int connect_d) {
 
-// TODOs & Known Bugs:
-// - assumes the players don't go over INPUT_MAX length
-
-// Maximum input length of string buffer
-const int INPUT_MAX = 80;
-
-int main() {
-    // Initialize space for strings
-    char answer_array[INPUT_MAX];
+    // send intro messages
+    char *msg = "Welcome to 20 questions, player 2! Player 1 is thinking of a secret word...\n";
+    if (send(connect_d, msg, strlen(msg), 0) == -1)
+      error("Can't send");
+    char answer_array[80];
     char *answer_str = answer_array;
-
-    char question_array[INPUT_MAX];
-    char *question_str = question_array;
-
-    char guess_array[INPUT_MAX];
-    char *guess_str = guess_array;
-
-
-    puts("Player 1: What are you thinking of? ");
+    puts("Welcome to 20 questions! Player 1, what word are you thinking of? ");
     scanf("%s", answer_str);
 
+    char buf[255];
+
     for (int i = 1; i < 21; i++) {
-        // Player 1 asks a question, which is saved
-        puts("Player 2: Ask a yes or no question: ");
-        scanf("%s", question_str);
+        char *msg2 = "Player 2: Ask a yes or no question, or enter a guess: \n";
+        send(connect_d, msg2, strlen(msg2), 0);
 
-        // Player 2 answers Y/N
-        puts("Player 1: Enter Y or N, or C if it is the correct answer: ");
-        scanf("%s", guess_str);
+        // read player 2 guess
+        char guess_array[80];
+        read_in(connect_d, guess_array, sizeof(guess_array));
+        char* guess = guess_array;
+        printf("%s\n", guess_array);
 
-        // Check for correct guess
-        if (guess_str[0] == 'C') {
-            printf("Correct - Player 1 was thinking of \"%s\"! Guessed in %i questions.\n", answer_str, i);
-            break;
+        // check for correct guess
+        int res = strcmp_CRignore(answer_str, guess);
+        if (res) {
+          printf("Player 2 guessed the answer: \"%s\"!  Guessed in %i questions.\n", answer_str, i);
+          char *end_msg = "You guessed it! Goodbye.\n";
+          send(connect_d, end_msg, strlen(msg2), 0);
+          break;
         }
-    }
 
-    return 0;
+        // Player 1 answers Y/N
+        printf("Player 1: answer yes or no: ");
+        scanf("%s", buf);
+        char *response = strcat(buf, "\n");
+        send(connect_d, response, strlen(response), 0);
+    }
 }
