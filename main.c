@@ -20,8 +20,6 @@ hostname -i
 #include "helpers.h"
 #include "games.h"
 
-int strcmp_CRignore(char* s1, char* s2);
-
 int main() {
   int listener_d = socket(PF_INET, SOCK_STREAM, 0);
   
@@ -65,35 +63,4 @@ int main() {
   }
 
   return 0;
-}
-
-void print_ints(char* s) {
-  if (*s == '\0') {
-    printf("slash0\n");
-    return;
-  }
-  printf("%d ", *s);
-  print_ints(s+1);
-}
-
-/* Alternate form of strcmp that ignores carriage returns towards inequality
-since carriage returns are appended on local strings but not ones sent through
-telnet.
-Returns 1 for "same" and 0 for "different"
-*/
-int strcmp_CRignore(char* s1, char* s2) {
-  while (1) {
-    if ((*s1=='\r' && *s2=='\0') ||
-        (*s1=='\0' && *s2=='\r') ||
-        (*s1=='\r' && *s2=='\r') ||
-        (*s1=='\0' && *s2=='\0')) {
-           return 1;
-    }
-
-    if (*s1 != *s2) {
-      return 0;
-    }
-
-    s1++; s2++;
-  }
 }

@@ -26,3 +26,29 @@ int read_in(int socket, char *buf, int len) {
     s[c-1]='\0';
   return len - slen;
 }
+
+void print_ints(char* s) {
+  if (*s == '\0') {
+    printf("slash0\n");
+    return;
+  }
+  printf("%d ", *s);
+  print_ints(s+1);
+}
+
+int strcmp_CRignore(char* s1, char* s2) {
+  while (1) {
+    if ((*s1=='\r' && *s2=='\0') ||
+        (*s1=='\0' && *s2=='\r') ||
+        (*s1=='\r' && *s2=='\r') ||
+        (*s1=='\0' && *s2=='\0')) {
+           return 1;
+    }
+
+    if (*s1 != *s2) {
+      return 0;
+    }
+
+    s1++; s2++;
+  }
+}
