@@ -35,5 +35,5 @@
 
 <!-- Link to Todoist board and Github -->
 ## Team links
-* ![Todoist](https://todoist.com/app/project/2285403013)
-* ![GitHub](https://github.com/emmamack/TicTacToad/)
+* [Todoist](https://todoist.com/app/project/2285403013)
+* [GitHub](https://github.com/emmamack/TicTacToad/)
