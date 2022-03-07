@@ -60,6 +60,7 @@ int main() {
 
     // Play games!
     play_20q(connect_d);
+    // play_tictactoe(connect_d);
     c = close(connect_d);
     // printf("c: %d\n", c);
     if (c==-1) {
