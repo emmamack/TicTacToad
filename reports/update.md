@@ -1,4 +1,4 @@
-git # TicTacToad: Terminal Based Minigames
+# TicTacToad: Terminal Based Minigames
 # Project Update
 ### Berwin Lan, Emma Mack, Maya Sivanandan
 
