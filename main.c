@@ -22,6 +22,7 @@ hostname -i
 #include "games.h"
 
 int main() {
+  
   int listener_d = socket(PF_INET, SOCK_STREAM, 0);
 
   if (listener_d == -1)
@@ -59,8 +60,8 @@ int main() {
     // printf("connect_d: %d\n", connect_d);
 
     // Play games!
-    play_20q(connect_d);
-    // play_tictactoe(connect_d);
+    // play_20q(connect_d);
+    play_tictactoe(connect_d);
     c = close(connect_d);
     // printf("c: %d\n", c);
     if (c==-1) {
