@@ -23,62 +23,215 @@ void play_tictactoe(int connect_d) {
     int curr_player;
     char *msg2;
     char *msg3;
+    char *msg4 = "Please wait for Player 1 to finish their turn.\n";
+    char *msg5 = "Your turn, Player 2. Please pick a remaining square [1-9]\n";
+
     int square_choice;
     char choice_str[1];
-    char mark = 'X';
-    char square[10] = { 'o', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+    char squares[10] = { 'o', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+    int win = 0;
     
     if (i == 0){
-        printf("P1 Loop\n");
-        curr_player = 1;
+        
         char *msg2 = "Player 1 will start. Please wait for them to pick a square\n";
         send(connect_d, msg2, strlen(msg2), 0);
-        puts("Player 1 you go first! Please pick a square [1-9]\n");
+        puts("Player 1 you go first! Please pick a square [1-9]");
+        print_board_host(squares);
         scanf("%s", choice_str);
         square_choice = atoi(choice_str);
+        squares[square_choice] = 'X';
+
+        // if (check_valid_move(squares, square_choice) == 1){
+        //     squares[square_choice] = 'X';
+        // }
+        // else {
+        //     puts("Invalid Move");
+        //     curr_player ++;
+        // }
+        curr_player = 0;
     }
              
     else {
-        curr_player = 2;
-        puts("Player 2 will start. Please wait for them to pick a square\n");
+        
+        puts("Player 2 will start. Please wait for them to pick a square");
 
         char *msg3 = "Player 2 you go first! Please pick a square [1-9]\n";
         send(connect_d, msg3, strlen(msg3), 0);
+        print_board_player(squares, connect_d);
         read_in(connect_d, choice_str, sizeof(choice_str));
         square_choice = atoi(choice_str);
+        squares[square_choice] = 'O';
+
+        // if (check_valid_move(squares, square_choice) == 1){
+        //     squares[square_choice] = 'O';
+        // }
+        // else {
+        //     puts("Invalid Move");
+        //     curr_player ++;
+        // }
+        curr_player = 1;
     }
     
+    while (win==0){
+        print_board_host(squares);
+        print_board_player(squares, connect_d);
+        switch (curr_player){
+            case 1:
+                // GAME Player 1
+                send(connect_d, msg4, strlen(msg4), 0);
 
-    // char answer_array[80];
-    // char *answer_str = answer_array;
-    // puts("Welcome to 20 questions! Player 1, what word are you thinking of? ");
-    // scanf("%s", answer_str);
+                puts("Your turn, Player 1. Please pick a remaining square [1-9]");
+                scanf("%s", choice_str);
+                square_choice = atoi(choice_str);
+                squares[square_choice] = 'X';
 
-    // char buf[255];
+                // if (check_valid_move(squares, square_choice) == 1){
+                //     squares[square_choice] = 'X';
+                // }
+                // else {
+                //     puts("Invalid Move");
+                //     curr_player ++;
+                // }
+            case 0:
+                // GAME Player 2
+                puts("Please wait for Player 2 to finish their turn.");
 
-    // for (int i = 1; i < 21; i++) {
-    //     char *msg4 = "Player 2: Ask a yes or no question, or enter a guess: \n";
-    //     send(connect_d, msg2, strlen(msg2), 0);
+                send(connect_d, msg5, strlen(msg5), 0);
+                read_in(connect_d, choice_str, sizeof(choice_str));
+                square_choice = atoi(choice_str);
+                squares[square_choice] = 'O';
 
-    //     // read player 2 guess
-    //     char guess_array[80];
-    //     read_in(connect_d, guess_array, sizeof(guess_array));
-    //     char* guess = guess_array;
-    //     printf("%s\n", guess_array);
+                // if (check_valid_move(squares, square_choice) == 1){
+                //     squares[square_choice] = 'O';
+                // }
+                // else {
+                //     puts("Invalid Move");
+                //     curr_player ++;
+                // }
+        }
+        curr_player = (curr_player ++) % 2;
+        win = check_win_cond(squares);
+    }
+    
+    if (win==-1){
+        puts("Tie Game!");
+        char *msgTie = "Tie Game!\n";
+        send(connect_d, msgTie, strlen(msgTie), 0);
+    }
 
-    //     // check for correct guess
-    //     int res = strcmp_CRignore(answer_str, guess);
-    //     if (res) {
-    //       printf("Player 2 guessed the answer: \"%s\"!  Guessed in %i questions.\n", answer_str, i);
-    //       char *end_msg = "You guessed it! Goodbye.\n";
-    //       send(connect_d, end_msg, strlen(msg2), 0);
-    //       break;
-    //     }
+    else if (curr_player = 1 && win==1){
+        puts("You Win!");
+        char *msgLoss = "Player 1 wins, sorry!\n";
+        send(connect_d, msgLoss, strlen(msgLoss), 0);
+    }
 
-    //     // Player 1 answers Y/N
-    //     printf("Player 1: answer yes or no: ");
-    //     scanf("%s", buf);
-    //     char *response = strcat(buf, "\n");
-    //     send(connect_d, response, strlen(response), 0);
-    // }
+    else if (curr_player = 0 && win==1){
+        puts("Player 2 wins, sorry!");
+        char *msgLoss = "You Win!\n";
+        send(connect_d, msgLoss, strlen(msgLoss), 0);
+    }
 }
+
+void print_board_host(char *squares){
+    printf("   |   |   \n");
+    printf(" %c | %c | %c\n", squares[1], squares[2], squares[3]);
+    printf("___|___|___\n");
+    printf("   |   |   \n");
+    printf(" %c | %c | %c\n", squares[4], squares[5], squares[6]);
+    printf("___|___|___\n");
+    printf("   |   |   \n");
+    printf(" %c | %c | %c\n", squares[7], squares[8], squares[9]);
+    printf("   |   |   \n");
+}
+
+void print_board_player(char *squares, int connect_d){
+    char *msg_vert = "   |   |   \n";
+    char *msg_horiz = "___|___|___\n";
+    char msg_row1[12];
+    sprintf(msg_row1, " %c | %c | %c\n", squares[1], squares[2], squares[3]);
+
+    char msg_row2[12];
+    sprintf(msg_row2, " %c | %c | %c\n", squares[4], squares[5], squares[6]);
+
+    char msg_row3[12];
+    sprintf(msg_row3, " %c | %c | %c\n", squares[7], squares[8], squares[9]);
+    
+    send(connect_d, msg_vert, strlen(msg_vert), 0);
+    send(connect_d, msg_row1, strlen(msg_row1), 0);
+    send(connect_d, msg_horiz, strlen(msg_horiz), 0);
+    send(connect_d, msg_vert, strlen(msg_vert), 0);
+    send(connect_d, msg_row2, strlen(msg_row2), 0);
+    send(connect_d, msg_vert, strlen(msg_vert), 0);
+    send(connect_d, msg_horiz, strlen(msg_horiz), 0);
+    send(connect_d, msg_vert, strlen(msg_vert), 0);
+    send(connect_d, msg_row3, strlen(msg_row3), 0);
+    send(connect_d, msg_vert, strlen(msg_vert), 0);
+
+};
+
+int check_win_cond(char *squares){
+    if (squares[1] == squares[2] && squares[2] == squares[3])
+        return 1;
+        
+    else if (squares[4] == squares[5] && squares[5] == squares[6])
+        return 1;
+        
+    else if (squares[7] == squares[8] && squares[8] == squares[9])
+        return 1;
+        
+    else if (squares[1] == squares[4] && squares[4] == squares[7])
+        return 1;
+        
+    else if (squares[2] == squares[5] && squares[5] == squares[8])
+        return 1;
+        
+    else if (squares[3] == squares[6] && squares[6] == squares[9])
+        return 1;
+        
+    else if (squares[1] == squares[5] && squares[5] == squares[9])
+        return 1;
+        
+    else if (squares[3] == squares[5] && squares[5] == squares[7])
+        return 1;
+        
+    else if (squares[1] != '1' && squares[2] != '2' && squares[3] != '3' &&
+        squares[4] != '4' && squares[5] != '5' && squares[6] != '6' && squares[7] 
+        != '7' && squares[8] != '8' && squares[9] != '9')
+
+        return -1;
+    else
+        return  0;
+}
+
+// int check_valid_move(char *squares, int square_choice){
+//     if (square_choice == '1' && squares[1] == '1'){
+//             return 1;
+//         }
+//         else if (square_choice == '2' && squares[2] == '2'){
+//             return 1;
+//         }
+//         else if (square_choice == '3' && squares[3] == '3'){
+//             return 1;
+//         }
+//         else if (square_choice == '4' && squares[4] == '4'){
+//             return 1;
+//         }
+//         else if (square_choice == '5' && squares[5] == '5'){
+//             return 1;
+//         }
+//         else if (square_choice == '6' && squares[6] == '6'){
+//             return 1;
+//         }
+//         else if (square_choice == '7' && squares[7] == '7'){
+//             return 1;
+//         }
+//         else if (square_choice == '8' && squares[8] == '8'){
+//             return 1;
+//         }
+//         else if (square_choice == '9' && squares[9] == '9'){
+//             return 1;
+//         }
+//         else {
+//             return 0;
+//         }
+//     }
