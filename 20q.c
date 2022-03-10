@@ -26,7 +26,6 @@ void play_20q(int connect_d) {
         char guess_array[80];
         read_in(connect_d, guess_array, sizeof(guess_array));
         char* guess = guess_array;
-        printf("%s\n", guess_array);
 
         // check for correct guess
         int res = strcmp_CRignore(answer_str, guess);
