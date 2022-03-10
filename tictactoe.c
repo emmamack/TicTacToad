@@ -75,8 +75,7 @@ void play_tictactoe(int connect_d) {
     while (win==0){
         print_board_host(squares);
         print_board_player(squares, connect_d);
-        switch (curr_player){
-            case 1:
+        if (curr_player%2 == 1){
                 // GAME Player 1
                 send(connect_d, msg4, strlen(msg4), 0);
 
@@ -84,7 +83,6 @@ void play_tictactoe(int connect_d) {
                 scanf("%s", choice_str);
                 square_choice = atoi(choice_str);
                 squares[square_choice] = 'X';
-
                 // if (check_valid_move(squares, square_choice) == 1){
                 //     squares[square_choice] = 'X';
                 // }
@@ -92,14 +90,16 @@ void play_tictactoe(int connect_d) {
                 //     puts("Invalid Move");
                 //     curr_player ++;
                 // }
-            case 0:
-                // GAME Player 2
+        }
+        else {
                 puts("Please wait for Player 2 to finish their turn.");
 
                 send(connect_d, msg5, strlen(msg5), 0);
                 read_in(connect_d, choice_str, sizeof(choice_str));
                 square_choice = atoi(choice_str);
                 squares[square_choice] = 'O';
+                // GAME Player 2
+                
 
                 // if (check_valid_move(squares, square_choice) == 1){
                 //     squares[square_choice] = 'O';
@@ -109,7 +109,7 @@ void play_tictactoe(int connect_d) {
                 //     curr_player ++;
                 // }
         }
-        curr_player = (curr_player ++) % 2;
+        curr_player ++;
         win = check_win_cond(squares);
     }
     
@@ -119,13 +119,13 @@ void play_tictactoe(int connect_d) {
         send(connect_d, msgTie, strlen(msgTie), 0);
     }
 
-    else if (curr_player = 1 && win==1){
+    else if ((win == 1) && (curr_player %2 == 1)){
         puts("You Win!");
         char *msgLoss = "Player 1 wins, sorry!\n";
         send(connect_d, msgLoss, strlen(msgLoss), 0);
     }
 
-    else if (curr_player = 0 && win==1){
+    else if ((win == 1) && (curr_player %2 == 0)){
         puts("Player 2 wins, sorry!");
         char *msgLoss = "You Win!\n";
         send(connect_d, msgLoss, strlen(msgLoss), 0);
