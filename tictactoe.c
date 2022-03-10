@@ -19,7 +19,6 @@ void play_tictactoe(int connect_d) {
     
     srand(time(NULL)); 
     int i = rand() % 2;
-    printf("%d\n", i);
     int curr_player;
     char *msg2;
     char *msg3;
@@ -27,7 +26,8 @@ void play_tictactoe(int connect_d) {
     char *msg5 = "Your turn, Player 2. Please pick a remaining square [1-9]\n";
 
     int square_choice;
-    char choice_str[1];
+    char choice_str[2];
+    char plyr_choice_str[2];
     char squares[10] = { 'o', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
     int win = 0;
     
@@ -54,12 +54,12 @@ void play_tictactoe(int connect_d) {
     else {
         
         puts("Player 2 will start. Please wait for them to pick a square");
-
         char *msg3 = "Player 2 you go first! Please pick a square [1-9]\n";
         send(connect_d, msg3, strlen(msg3), 0);
         print_board_player(squares, connect_d);
-        read_in(connect_d, choice_str, sizeof(choice_str));
-        square_choice = atoi(choice_str);
+        read_in(connect_d, plyr_choice_str, sizeof(plyr_choice_str));
+        char* string_1 = choice_str;
+        square_choice = atoi(string_1);
         squares[square_choice] = 'O';
 
         // if (check_valid_move(squares, square_choice) == 1){
@@ -95,8 +95,12 @@ void play_tictactoe(int connect_d) {
                 puts("Please wait for Player 2 to finish their turn.");
 
                 send(connect_d, msg5, strlen(msg5), 0);
-                read_in(connect_d, choice_str, sizeof(choice_str));
-                square_choice = atoi(choice_str);
+                read_in(connect_d, plyr_choice_str, sizeof(plyr_choice_str));
+                square_choice = atoi(plyr_choice_str);
+                char* string_1 = plyr_choice_str;
+                printf("choice str: %s\n", plyr_choice_str);
+                printf("string: %s\n", string_1);
+                printf("sq choice: %i\n", square_choice);
                 squares[square_choice] = 'O';
                 // GAME Player 2
                 
@@ -110,6 +114,8 @@ void play_tictactoe(int connect_d) {
                 // }
         }
         curr_player ++;
+        printf("Current player %i\n", curr_player);
+        printf("Current player mod %i\n", curr_player%2);
         win = check_win_cond(squares);
     }
     
@@ -119,13 +125,13 @@ void play_tictactoe(int connect_d) {
         send(connect_d, msgTie, strlen(msgTie), 0);
     }
 
-    else if ((win == 1) && (curr_player %2 == 1)){
+    else if ((win == 1) && (curr_player %2 == 0)){
         puts("You Win!");
         char *msgLoss = "Player 1 wins, sorry!\n";
         send(connect_d, msgLoss, strlen(msgLoss), 0);
     }
 
-    else if ((win == 1) && (curr_player %2 == 0)){
+    else if ((win == 1) && (curr_player %2 == 1)){
         puts("Player 2 wins, sorry!");
         char *msgLoss = "You Win!\n";
         send(connect_d, msgLoss, strlen(msgLoss), 0);
