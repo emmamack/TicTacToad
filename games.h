@@ -2,6 +2,7 @@
 
 #pragma once
 
+void game_chooser(int);
 void play_20q(int);
 void play_tictactoe(int);
 void print_board_host(char *squares);
