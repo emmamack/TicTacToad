@@ -2,15 +2,15 @@
 
 ![Welcome to Tic Tac Toad](images/tictactoad.PNG)
 
-## Project Goals 
+## Project Goals
 
 The baseline goal of this project was to allow two computers on the same network to play command-line games, such as tic-tac-toe. We also explored additional goals, such as implementing more games, allowing more than two users to participate, creating a setup shell script, designing a GUI, and being able to play against a simple AI.
 
-## Project Outcomes 
+## Project Outcomes
 
 Our final product is a program which [opens] a server and allows a client to connect.
 
-[Insert screenshot of code snippets of socket stuff]
+![Socket snippet](images/socket_stuff.png)
 
 The client is greeted with a welcome “screen” with a simple GUI. By entering either `1` or `2`, they can choose to play 20 questions or tic-tac-toe with the person running the server. A string comparison is used to match to and call the appropriate game function.
 
@@ -36,21 +36,21 @@ After the client makes their guess, the first thing the function does is compare
 
 ### Tic-tac-toe
 
-The tic-tac-toe game sends back and forth a character-based ‘board’ and allows both players to edit the board by placing a mark on their respective turns. 
+The tic-tac-toe game sends back and forth a character-based ‘board’ and allows both players to edit the board by placing a mark on their respective turns.
 
 [add a few screenshots]
 
 In addition to the main interactive game program, there is a setup script which installs library dependencies for you, and installs a command to boot up the server.
 
-[insert setup script screenshot here] 
+![Setup](images/setup.png)
 
-## Design Decisions 
+## Design Decisions
 
 We’d like to highlight a few design decisions we made that we think are interesting.
 
-We focused on making our code modular and reusable by using header files and refactoring large functions into multiple smaller ones with helper functions. While we started off by writing all our code in the `main.c` file, this quickly became very large and unwieldy. 
+We focused on making our code modular and reusable by using header files and refactoring large functions into multiple smaller ones with helper functions. While we started off by writing all our code in the `main.c` file, this quickly became very large and unwieldy.
 
-We created `helper.h` and `helper.c` to store several common functions that were used across multiple other files, including error handling, reading input, and string comparison that worked with carriage returns. This helped avoid function redefinition errors, reduce our compilation time and time spent debugging, and make our overall file structure neater and more comprehensible. For example, we ran into a few edge cases that had to do with reading input from Telnet, and having functions like `strcmp_CRignore` that could handle these cases accessible from multiple game files was helpful. 
+We created `helper.h` and `helper.c` to store several common functions that were used across multiple other files, including error handling, reading input, and string comparison that worked with carriage returns. This helped avoid function redefinition errors, reduce our compilation time and time spent debugging, and make our overall file structure neater and more comprehensible. For example, we ran into a few edge cases that had to do with reading input from Telnet, and having functions like `strcmp_CRignore` that could handle these cases accessible from multiple game files was helpful.
 
 ![strcmp_CRignore in helpers.h header file](images/helpersHeader.PNG)
 
@@ -60,13 +60,13 @@ We also created a header file for game-related function definitions to run 20 qu
 
 Berwin’s learning goals were to improve and expand her skills in C, in addition to building a basic understanding of how computers communicate across a network. She met these learning goals, got more comfortable working on software with a team, and got to work on the interactive aspect of the project through 20 questions and the game chooser.
 
-Emma wanted to understand computer networking, get more practice using pointers, and learn about shell scripts. By kicking off the socket communication coding, she got an understanding of how servers and clients connect and communicate. She got a chance to practice her C coding throughout and in particular with 20 questions. She also got to learn how CLI tools work, and a bit about shell scripts, in her setup script. 
+Emma wanted to understand computer networking, get more practice using pointers, and learn about shell scripts. By kicking off the socket communication coding, she got an understanding of how servers and clients connect and communicate. She got a chance to practice her C coding throughout and in particular with 20 questions. She also got to learn how CLI tools work, and a bit about shell scripts, in her setup script.
 
 [Insert Maya learning here: Understanding how to have two computers communicate in real time and increasing my general competency in C]
 
 
 ## Resources
- 
+
 Here is a non-exhaustive list of the resources that we used throughout this project. We found _Head First C_ Chapter 11 particularly helpful for the initial network setup.
 * [Resources from HackerChat SoftSys project](https://github.com/NathanShuster/hackerchat/blob/master/reports/report.md#resources)
 * Griffiths, D. (2012). Head First C. O’Reilly Media.
