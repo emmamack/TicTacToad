@@ -42,4 +42,8 @@ void play_20q(int connect_d) {
         char *response = strcat(buf, "\n");
         send(connect_d, response, strlen(response), 0);
     }
+
+    char *noqs_msg = "No more questions left, goodbye.\n";
+    send(connect_d, noqs_msg, strlen(failure_msg), 0);
+    printf("No more questions left.\n");
 }
