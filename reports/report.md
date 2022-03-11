@@ -52,7 +52,7 @@ We focused on making our code modular and reusable by using header files and ref
 
 We created `helper.h` and `helper.c` to store several common functions that were used across multiple other files, including error handling, reading input, and string comparison that worked with carriage returns. This helped avoid function redefinition errors, reduce our compilation time and time spent debugging, and make our overall file structure neater and more comprehensible. For example, we ran into a few edge cases that had to do with reading input from Telnet, and having functions like `strcmp_CRignore` that could handle these cases accessible from multiple game files was helpful. 
 
-![strcmp_CRignore in helpers.h header file](images/helpersHeader)
+![strcmp_CRignore in helpers.h header file](images/helpersHeader.PNG)
 
 We also created a header file for game-related function definitions to run 20 questions, tic-tac-toe, and the game chooser. While the game functions weren’t as broadly used as the helper functions, we wanted to write clean and reusable code across the entire project. It also allows for more games to easily be added in the future since only the game chooser and games.h would need to be edited to include each new game.
 
