@@ -1,6 +1,6 @@
 # Tic Tac Toad: Final Report
 
-![Welcome to Tic Tac Toad](images/tictactoad.png)
+![Welcome to Tic Tac Toad](images/tictactoad.PNG)
 
 ## Project Goals 
 
@@ -14,25 +14,25 @@ Our final product is a program which [opens] a server and allows a client to con
 
 The client is greeted with a welcome “screen” with a simple GUI. By entering either `1` or `2`, they can choose to play 20 questions or tic-tac-toe with the person running the server. A string comparison is used to match to and call the appropriate game function.
 
-![Game chooser](images/gamechooser.png)
+![Game chooser](images/gamechooser.PNG)
 
 ### 20 Questions
 
 The 20 questions game checks each of the client-side player’s guesses against the server-side player’s secret word, and ends the game once the word has been guessed or 20 questions have been asked (whichever happens first).
 
-![20 questions demo](images/20q_demo.png)
+![20 questions demo](images/20q_demo.PNG)
 
 The server-side player thinks of a word and enters it and the game saves it to the string `answer_str`. This allows us to compare it to the guesses from the client.
 
-![20 questions - 1](images/20q_1.png)
+![20 questions - 1](images/20q_1.PNG)
 
 The client asks a question, which is sent over the network to the server’s shell. The input from the client is stored as `guess`. The client gets 20 questions before the game automatically closes.
 
-![20 questions - 2](images/20q_2.png)
+![20 questions - 2](images/20q_2.PNG)
 
 After the client makes their guess, the first thing the function does is compare it against `answer_str`. If `guess` and `answer_str` are identical, this means that the client has guessed the word and the game ends. Otherwise, the server replies to the client’s question with either yes or no, and their reply is sent back over the network to the client and the question-and-answer cycle repeats.
 
-![20 questions - 3](images/20q_3.png)
+![20 questions - 3](images/20q_3.PNG)
 
 ### Tic-tac-toe
 
