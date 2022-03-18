@@ -11,114 +11,107 @@
 
 void play_tictactoe(int connect_d) {
 
-    // send intro messages
-    char *msg = "Welcome to Tic Tac Toe, player 2!\n";
+    // Send intro message
+    char *msg = "Welcome to Tic Tac Toe, Player 2!\n";
     if (send(connect_d, msg, strlen(msg), 0) == -1){
       error("Can't send");
     }
     
+    // Randomize which player starts
     srand(time(NULL)); 
     int i = rand() % 2;
     int curr_player;
-    char *msg2;
-    char *msg3;
+
+    // Messages to send Player 2 during the game
+    char *msg2 = "Player 1 will start. Please wait for them to pick a "
+                 "square\n";
+    char *msg3 = "Player 2 you go first! Please pick a square [1-9]\n";;
     char *msg4 = "Please wait for Player 1 to finish their turn.\n";
     char *msg5 = "Your turn, Player 2. Please pick a remaining square [1-9]\n";
 
     int square_choice;
     char choice_str[2];
-    char plyr_choice_str[2];
+
+    // Array to store the current game board
     char squares[10] = { 'o', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+
+    // Integer to represent the game state
     int win = 0;
     
+    // First round tells players who is going first
     if (i == 0){
-        
-        char *msg2 = "Player 1 will start. Please wait for them to pick a square\n";
         send(connect_d, msg2, strlen(msg2), 0);
         puts("Player 1 you go first! Please pick a square [1-9]");
         print_board_host(squares);
+
+        // Take in host input as a string, convert to integer, and update the
+        // respective board square.
         scanf("%s", choice_str);
         square_choice = atoi(choice_str);
         squares[square_choice] = 'X';
+        print_board_host(squares);
 
-        // if (check_valid_move(squares, square_choice) == 1){
-        //     squares[square_choice] = 'X';
-        // }
-        // else {
-        //     puts("Invalid Move");
-        //     curr_player ++;
-        // }
+        // Update current player counter
         curr_player = 0;
     }
              
     else {
         
         puts("Player 2 will start. Please wait for them to pick a square");
-        char *msg3 = "Player 2 you go first! Please pick a square [1-9]\n";
         send(connect_d, msg3, strlen(msg3), 0);
         print_board_player(squares, connect_d);
-        read_in(connect_d, plyr_choice_str, sizeof(plyr_choice_str));
-        char* string_1 = choice_str;
-        square_choice = atoi(string_1);
-        squares[square_choice] = 'O';
 
-        // if (check_valid_move(squares, square_choice) == 1){
-        //     squares[square_choice] = 'O';
-        // }
-        // else {
-        //     puts("Invalid Move");
-        //     curr_player ++;
-        // }
+        // Take in player input as a string, convert to integer, and update the
+        // respective board square.
+        char plyr_choice_str[3];
+        read_in(connect_d, plyr_choice_str, sizeof(plyr_choice_str));
+        char* guess = plyr_choice_str;
+        square_choice = atoi(plyr_choice_str);
+        squares[square_choice] = 'O';
+        print_board_player(squares, connect_d);
+
+        // Update current player counter
         curr_player = 1;
     }
     
     while (win==0){
-        print_board_host(squares);
-        print_board_player(squares, connect_d);
+        
+        
         if (curr_player%2 == 1){
-                // GAME Player 1
+                // Player 1 Turn
                 send(connect_d, msg4, strlen(msg4), 0);
 
-                puts("Your turn, Player 1. Please pick a remaining square [1-9]");
+                print_board_host(squares);
+                puts("Your turn, Player 1. Please pick a remaining square "
+                     "[1-9]");
                 scanf("%s", choice_str);
                 square_choice = atoi(choice_str);
                 squares[square_choice] = 'X';
-                // if (check_valid_move(squares, square_choice) == 1){
-                //     squares[square_choice] = 'X';
-                // }
-                // else {
-                //     puts("Invalid Move");
-                //     curr_player ++;
-                // }
+                print_board_host(squares);
         }
         else {
+                // Player 2 Turn
                 puts("Please wait for Player 2 to finish their turn.");
 
+                print_board_player(squares, connect_d);
                 send(connect_d, msg5, strlen(msg5), 0);
-                read_in(connect_d, plyr_choice_str, sizeof(plyr_choice_str));
-                square_choice = atoi(plyr_choice_str);
-                char* string_1 = plyr_choice_str;
-                printf("choice str: %s\n", plyr_choice_str);
-                printf("string: %s\n", string_1);
-                printf("sq choice: %i\n", square_choice);
-                squares[square_choice] = 'O';
-                // GAME Player 2
-                
 
-                // if (check_valid_move(squares, square_choice) == 1){
-                //     squares[square_choice] = 'O';
-                // }
-                // else {
-                //     puts("Invalid Move");
-                //     curr_player ++;
-                // }
+                char plyr_choice_str[3];
+                read_in(connect_d, plyr_choice_str, sizeof(plyr_choice_str));
+                char* guess = plyr_choice_str;
+                
+                square_choice = atoi(plyr_choice_str);
+                squares[square_choice] = 'O';
+                print_board_player(squares, connect_d);
         }
+        // Update current player counter
         curr_player ++;
-        printf("Current player %i\n", curr_player);
-        printf("Current player mod %i\n", curr_player%2);
+        
+        // Check if the game has ended
         win = check_win_cond(squares);
     }
     
+    // Print the outcome of the game to host and client
     if (win==-1){
         puts("Tie Game!");
         char *msgTie = "Tie Game!\n";
@@ -139,6 +132,15 @@ void play_tictactoe(int connect_d) {
 }
 
 void print_board_host(char *squares){
+    /*
+
+    Print the current board state as a visual tic-tac-toe to the host
+
+    Input
+    - squares, a pointer to a character array that represents the game board
+
+    */
+    
     printf("   |   |   \n");
     printf(" %c | %c | %c\n", squares[1], squares[2], squares[3]);
     printf("___|___|___\n");
@@ -151,6 +153,16 @@ void print_board_host(char *squares){
 }
 
 void print_board_player(char *squares, int connect_d){
+    /*
+    
+    Print the current board state as a visual tic-tac-toe to the client
+
+    Inputs
+    - squares: a pointer to a character array that represents the game board
+    - connect_d: an integer of the client's address
+
+    */
+    
     char *msg_vert = "   |   |   \n";
     char *msg_horiz = "___|___|___\n";
     char msg_row1[12];
@@ -176,6 +188,21 @@ void print_board_player(char *squares, int connect_d){
 };
 
 int check_win_cond(char *squares){
+    /*
+    
+    Check if the game of tic-tac-toe has ended
+
+    Input
+    - squares, a pointer to a character array that represents the game board
+
+    Return
+    - 1 if the game is won
+    - -1 if the game is tied
+    - 0 if the game has not ended yet
+    */
+    
+    // Return 1 if any player has 3 marks in a row (horizontally, vertically,
+    // or diagonally)
     if (squares[1] == squares[2] && squares[2] == squares[3])
         return 1;
         
@@ -200,44 +227,13 @@ int check_win_cond(char *squares){
     else if (squares[3] == squares[5] && squares[5] == squares[7])
         return 1;
         
+    // Return -1 if the board is full, but no player has 3 marks in a row 
     else if (squares[1] != '1' && squares[2] != '2' && squares[3] != '3' &&
-        squares[4] != '4' && squares[5] != '5' && squares[6] != '6' && squares[7] 
-        != '7' && squares[8] != '8' && squares[9] != '9')
+        squares[4] != '4' && squares[5] != '5' && squares[6] != '6' && 
+        squares[7] != '7' && squares[8] != '8' && squares[9] != '9')
 
         return -1;
+    // Return 0 if the game has not ended
     else
         return  0;
 }
-
-// int check_valid_move(char *squares, int square_choice){
-//     if (square_choice == '1' && squares[1] == '1'){
-//             return 1;
-//         }
-//         else if (square_choice == '2' && squares[2] == '2'){
-//             return 1;
-//         }
-//         else if (square_choice == '3' && squares[3] == '3'){
-//             return 1;
-//         }
-//         else if (square_choice == '4' && squares[4] == '4'){
-//             return 1;
-//         }
-//         else if (square_choice == '5' && squares[5] == '5'){
-//             return 1;
-//         }
-//         else if (square_choice == '6' && squares[6] == '6'){
-//             return 1;
-//         }
-//         else if (square_choice == '7' && squares[7] == '7'){
-//             return 1;
-//         }
-//         else if (square_choice == '8' && squares[8] == '8'){
-//             return 1;
-//         }
-//         else if (square_choice == '9' && squares[9] == '9'){
-//             return 1;
-//         }
-//         else {
-//             return 0;
-//         }
-//     }

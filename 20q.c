@@ -32,7 +32,7 @@ void play_20q(int connect_d) {
         if (res) {
           printf("Player 2 guessed the answer: \"%s\"!  Guessed in %i questions.\n", answer_str, i);
           char *end_msg = "You guessed it! Goodbye.\n";
-          send(connect_d, end_msg, strlen(msg2), 0);
+          send(connect_d, end_msg, strlen(end_msg), 0);
           break;
         }
 
@@ -44,6 +44,6 @@ void play_20q(int connect_d) {
     }
 
     char *noqs_msg = "No more questions left, goodbye.\n";
-    send(connect_d, noqs_msg, strlen(failure_msg), 0);
+    send(connect_d, noqs_msg, strlen(noqs_msg), 0);
     printf("No more questions left.\n");
 }
