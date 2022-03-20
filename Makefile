@@ -1,5 +1,5 @@
 main: main.c 20q.o tictactoe.o helpers.o game_chooser.o
-	gcc -o main main.c 20q.o tictactoe.o helpers.o game_chooser.o
+	gcc -o gameserver main.c 20q.o tictactoe.o helpers.o game_chooser.o
 
 helpers.o: helpers.c helpers.h
 	gcc -c helpers.c
