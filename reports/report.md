@@ -60,7 +60,7 @@ The game automatically ends when either player wins or the game is tied.
 
 ![TicTacToe5](images/TicTacToe5.PNG)
 
-![TicTacToe5](images/TicTacToe5.PNG)
+![TicTacToe6](images/TicTacToe6.PNG)
 
 In addition to the main interactive game program, there is a setup script which installs library dependencies for you, and installs a command to boot up the server.
 
