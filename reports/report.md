@@ -36,9 +36,31 @@ After the client makes their guess, the first thing the function does is compare
 
 ### Tic-tac-toe
 
-The tic-tac-toe game sends back and forth a character-based ‘board’ and allows both players to edit the board by placing a mark on their respective turns.
+The tic-tac-toe game sends back and forth a character-based ‘board’ and allows both players to edit the board by placing a mark on their respective turns. The game ends when either player places 3 marks in a row or if the whole board has been marked. 
 
-[add a few screenshots]
+![TicTacToe0](images/TicTacToe0.PNG)
+
+The game starts by picking a random player (host or client) to play first. Turn order then alternates.
+
+![TicTacToe1](images/TicTacToe1.PNG)
+
+The player then enters a number (1-9) representing the square which they want to mark. If the player is the host, this is a character array `choice_str` taken from the standard input. For the client, the number is sent over the network to the server’s shell and stored as `plyr_choice_str`. 
+
+![TicTacToe2](images/TicTacToe2.PNG)
+![TicTacToe3](images/TicTacToe3.PNG)
+
+The character arrays are then converted into integers (`square_choice`), so that they can be used to index the character array `squares`, which stores the current state of the tic-tac-toe board. Then, the respective square is marked by an ‘X’ or an ‘O’ depending on the player.
+
+
+There are also two functions, `print_board_host` and `print_board_player`, to print the board visually in the CLI for either the client or the host
+
+![TicTacToe4](images/TicTacToe4.PNG)
+
+The game automatically ends when either player wins or the game is tied.
+
+![TicTacToe5](images/TicTacToe5.PNG)
+
+![TicTacToe5](images/TicTacToe5.PNG)
 
 In addition to the main interactive game program, there is a setup script which installs library dependencies for you, and installs a command to boot up the server.
 
@@ -62,7 +84,7 @@ Berwin’s learning goals were to improve and expand her skills in C, in additio
 
 Emma wanted to understand computer networking, get more practice using pointers, and learn about shell scripts. By kicking off the socket communication coding, she got an understanding of how servers and clients connect and communicate. She got a chance to practice her C coding throughout and in particular with 20 questions. She also got to learn how CLI tools work, and a bit about shell scripts, in her setup script.
 
-[Insert Maya learning here: Understanding how to have two computers communicate in real time and increasing my general competency in C]
+Maya's goals for the project were to understand how to have two computers communicate in real time and increase her general competency in C. In working on tic-tac-toe, she gained a lot of practice in communicating between the client and the server host. This also provided a great opportunity for becoming more comfortable programming in C, specifically in working with character arrays.
 
 
 ## Resources
