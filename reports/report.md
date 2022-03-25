@@ -1,4 +1,4 @@
-# Tic Tac Toad: Final Report
+# Tic Tac Toad: Terminal-Based Minigames
 
 ![Welcome to Tic Tac Toad](images/tictactoad.PNG)
 
